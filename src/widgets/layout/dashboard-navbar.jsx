@@ -1,5 +1,4 @@
-// widgets/layout/dashboard-navbar.jsx
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import {
   Navbar,
@@ -49,6 +48,15 @@ export function DashboardNavbar() {
     fetchAdminName();
   }, []);
 
+ // Function to replace dashes with spaces
+const formatBreadcrumb = (str) => {
+  if (typeof str === 'string') {
+    return str.replace(/-/g, ' ');
+  }
+  return '';
+};
+
+
   return (
     <Navbar
       color={fixedNavbar ? "white" : "transparent"}
@@ -71,9 +79,9 @@ export function DashboardNavbar() {
               <Typography
                 variant="small"
                 color="blue-gray"
-                className="font-normal opacity-50 transition-all hover:text-blue-500 hover:opacity-100"
+                className="font-normal opacity-50 transition-all  "
               >
-                {layout}
+                {formatBreadcrumb(layout)} {/* Format breadcrumb */}
               </Typography>
             </Link>
             <Typography
@@ -81,16 +89,24 @@ export function DashboardNavbar() {
               color="blue-gray"
               className="font-normal"
             >
-              {page}
+              {formatBreadcrumb(page)} {/* Format breadcrumb */}
             </Typography>
           </Breadcrumbs>
           <Typography variant="h6" color="blue-gray">
-            {page}
+            {formatBreadcrumb(page)} {/* Format breadcrumb */}
           </Typography>
         </div>
         <div className="flex items-center">
           <div className="mr-auto md:mr-4 md:w-56">
-            <Input label="Search" />
+            <Input
+              type="search"
+              placeholder="search"
+              className="!border !border-gray-300 bg-white text-gray-900 shadow-lg shadow-gray-900/5 ring-4 ring-transparent placeholder:text-gray-500 "
+              labelProps={{
+                className: "hidden",
+              }}
+              containerProps={{ className: "min-w-[100px]" }}
+            />
           </div>
           <IconButton
             variant="text"
@@ -105,10 +121,10 @@ export function DashboardNavbar() {
             <Button
               variant="text"
               color="blue-gray"
-              className="hidden items-center gap-1 px-4 xl:flex normal-case"
+              className="hidden  items-center gap-1 px-4 xl:flex normal-case"
             >
               <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
-              {adminName && <Typography variant="button">{adminName}</Typography>}
+              {adminName && <Typography className="font-medium " type="button ">{adminName}</Typography>}
             </Button>
             <IconButton
               variant="text"

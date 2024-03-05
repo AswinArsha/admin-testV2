@@ -1,19 +1,18 @@
-// routes.jsx
+//routes.jsx
 import {
   HomeIcon,
   UserCircleIcon,
-  TableCellsIcon,
-  InformationCircleIcon,
   ServerStackIcon,
-  RectangleStackIcon,
+  
 } from "@heroicons/react/24/solid";
-import { Home, Users } from "@/pages/dashboard";
+import { Home, Users, AddUser } from "@/pages/dashboard"; // Import AddUser component
 import { SignIn } from "@/pages/auth";
-
 
 const icon = {
   className: "w-5 h-5 text-inherit",
 };
+
+const showAddUserButton = false; 
 
 export const routes = [
   {
@@ -21,7 +20,7 @@ export const routes = [
     pages: [
       {
         icon: <HomeIcon {...icon} />,
-        name: "dashboard",
+        name: "Dashboard",
         path: "/home",
         element: <Home />,
       },
@@ -31,7 +30,12 @@ export const routes = [
         path: "/users",
         element: <Users />,
       },
-     
+      {
+        name: "Add User",
+        path: "/add-user",
+        element: <AddUser />,
+        className: showAddUserButton ? "" : "hidden", // Add className based on showAddUserButton
+      },
     ],
   },
   {

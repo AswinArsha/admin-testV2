@@ -70,11 +70,9 @@ function AddUser() {
   };
 
   return (
-    <div className="flex  justify-center  gap-4">
-      <Card className="w-96">
-        <CardHeader color="blue-gray" contentPosition="none">
-          <h2 className="text-white text-lg font-semibold">Add User</h2>
-        </CardHeader>
+    <div className="flex justify-center mt-8  gap-4">
+      <Card className="  w-96">
+
         <CardBody>
           <div className="space-y-4">
             <Input
@@ -105,14 +103,30 @@ function AddUser() {
               value={userData.password}
               onChange={handleInputChange}
             />
-            <Input type="file" onChange={handleImageUpload} />
-            <Button color="black" onClick={handleAddUser}>
-              Add User
-            </Button>
+             <div className="border-gray-400 border rounded-lg">
+             <label class="block">
+             
+    <span class="sr-only">Choose profile photo</span>
+    <input type="file" onChange={handleImageUpload}  class="block w-full text-sm text-slate-500
+      file:mr-4 file:py-2 file:px-4
+      file:rounded-l-lg file:border-0
+      file:text-sm file:font-semibold
+      file:bg-gray-800 file:text-white
+      
+    "/>
+  </label>
+  </div>
+          
+            <div className="flex pt-4 justify-between">
+              <Button color="black" onClick={handleAddUser}>
+                Add User
+              </Button>
+
+              <Link to="/dashboard/users" className="text-gray-700 font-medium mt-3">Back to Users</Link>
+            </div>
             {successMessage && (
               <Alert color="green">{successMessage}</Alert>
             )}
-            <Link to="/dashboard/users">Back to Users</Link>
           </div>
         </CardBody>
       </Card>

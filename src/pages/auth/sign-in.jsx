@@ -29,7 +29,7 @@ export function SignIn() {
   };
 
   return (
-    <section className=" justify-center ">
+    <section className=" justify-center gap-4 flex">
       <div className="w-full lg:w-3/5 mt-24">
         <div className="text-center">
           <Typography variant="h2" className="font-bold mb-4">
