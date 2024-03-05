@@ -1,20 +1,23 @@
 // App.jsx
-import { Routes, Route, Navigate } from "react-router-dom"; // Make sure to include Navigate
+import { Routes, Route } from "react-router-dom"; 
 import { Dashboard, Auth } from "@/layouts";
-import { Users, AddUser, UserDetails } from "@/pages/dashboard";
+import { UserDetails, AddUser, Users } from "@/pages/dashboard"; 
 
 function App() {
   return (
     <Routes>
       <Route path="/dashboard/*" element={<Dashboard />}>
-        <Route path="users/:userId" element={<UserDetails />} />
         <Route path="add-user" element={<AddUser />} />
         <Route path="users" element={<Users />} />
+        <Route path="user-details/:userId" element={<UserDetails />} />
+        {/* 
+          ^ Adjusted the route path to be relative to the parent /dashboard/* route
+          Remove the leading /dashboard/ from the path
+        */}
       </Route>
       <Route path="/auth/*" element={<Auth />} />
-      <Route path="*" element={<Navigate to="/auth/sign-in" replace />} />
     </Routes>
   );
 }
 
-export default App
+export default App;

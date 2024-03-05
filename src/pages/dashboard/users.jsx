@@ -1,5 +1,6 @@
+// users.jsx
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom"; // Import Link
+import { Link } from "react-router-dom";
 import { db } from "../../firebase/config";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
@@ -13,10 +14,13 @@ import {
   Button,
   IconButton,
 } from "@material-tailwind/react";
+import { useNavigate } from "react-router-dom";
+
 
 function Users() {
   const [users, setUsers] = useState([]);
   const [activePage, setActivePage] = useState(1);
+  const navigate = useNavigate(); // Import useNavigate from react-router-dom
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -58,6 +62,12 @@ function Users() {
   const startIndex = (activePage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
 
+  // Function to navigate to UserDetails page
+  const navigateToUserDetails = (userId) => {
+    console.log("Navigating to UserDetails with userId:", userId);
+    navigate(`/dashboard/user-details/${userId}`);
+  };
+
   return (
     <div className="mt-12 mb-8 flex flex-col gap-12">
       <Card>
@@ -73,8 +83,7 @@ function Users() {
             <Button color="white" ripple="light">
               Add User
             </Button>
-        </Link>
-     
+          </Link>
         </CardHeader>
         <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
           <table className="w-full min-w-[640px] table-auto">
@@ -111,11 +120,14 @@ function Users() {
                     {user.email}
                   </td>
                   <td className="border-b border-blue-gray-50 py-3 px-5">
-                    <Link to={`/dashboard/user-details/${user.id}`}> {/* Navigate to UserDetails */}
-                      <Button color="blue" size="sm" className="mr-2">
-                        View
-                      </Button>
-                    </Link>
+                    <Button
+                      color="blue"
+                      size="sm"
+                      className="mr-2"
+                      onClick={() => navigateToUserDetails(user.id)}
+                    >
+                      View
+                    </Button>
                     <Button color="red" size="sm" onClick={() => handleDeleteUser(user.id)}>
                       Delete
                     </Button>

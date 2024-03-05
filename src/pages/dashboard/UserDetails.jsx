@@ -1,30 +1,32 @@
+// UserDetails.jsx
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { db, storage } from '../../firebase/config'; // Import Firebase configuration
+import { db, storage } from '../../firebase/config';
+import { doc, getDoc } from 'firebase/firestore';
 
 function UserDetails() {
-  const { userId } = useParams(); // Assuming you have a userId parameter in your route
+  const { userId } = useParams();
 
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        // Fetch user data from Firestore
-        const userDocRef = db.collection('users').doc(userId);
-        const userDocSnapshot = await userDocRef.get();
+        console.log('Fetching user data...');
+        const userDocRef = doc(db, 'users', userId);
+        const userDocSnapshot = await getDoc(userDocRef);
         const userDataFromFirestore = userDocSnapshot.data();
 
-        // Fetch user profile image from Storage
+        // Assuming profile image is stored in storage
         const profileImageRef = storage.ref(`profiles/${userId}/profile.jpg`);
         const profileImageUrl = await profileImageRef.getDownloadURL();
 
-        // Combine user data with profile image URL
         const userDataWithProfileImage = {
           ...userDataFromFirestore,
           profileImageUrl,
         };
 
+        console.log('User data fetched:', userDataWithProfileImage);
         setUserData(userDataWithProfileImage);
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -33,6 +35,10 @@ function UserDetails() {
 
     fetchUserData();
   }, [userId]);
+
+  useEffect(() => {
+    console.log('User data:', userData); // Check userData state variable
+  }, [userData]);
 
   if (!userData) {
     return <div>Loading...</div>;
@@ -68,24 +74,21 @@ function UserDetails() {
                     <img alt="..." src={userData.profileImageUrl} className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px" />
                   </div>
                 </div>
-                {/* Action buttons */}
-                {/* Add your action buttons here */}
               </div>
               {/* User details */}
               <div className="text-center mt-12">
                 <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">{userData.name}</h3>
                 <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
                   <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
-                  {userData.location}
+                  {userData.address} {/* Assuming address is a field in userData */}
                 </div>
-                {/* Add more user details here */}
               </div>
-              {/* User description */}
+              {/* Additional user details */}
               <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
                 <div className="flex flex-wrap justify-center">
                   <div className="w-full lg:w-9/12 px-4">
-                    <p className="mb-4 text-lg leading-relaxed text-blueGray-700">{userData.description}</p>
-                    {/* Add more user description here */}
+                    <p className="mb-4 text-lg leading-relaxed text-blueGray-700">Email: {userData.email}</p>
+                    <p className="mb-4 text-lg leading-relaxed text-blueGray-700">Password: {userData.password}</p>
                   </div>
                 </div>
               </div>
