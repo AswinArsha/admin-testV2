@@ -1,7 +1,7 @@
 // App.jsx
-import { Routes, Route } from "react-router-dom"; 
+import { Routes, Route, Navigate } from "react-router-dom"; // Make sure to include Navigate
 import { Dashboard, Auth } from "@/layouts";
-import { UserDetails, AddUser, Users } from "@/pages/dashboard"; 
+import {  AddUser, Users } from "@/pages/dashboard"; 
 
 function App() {
   return (
@@ -9,13 +9,11 @@ function App() {
       <Route path="/dashboard/*" element={<Dashboard />}>
         <Route path="add-user" element={<AddUser />} />
         <Route path="users" element={<Users />} />
-        <Route path="user-details/:userId" element={<UserDetails />} />
-        {/* 
-          ^ Adjusted the route path to be relative to the parent /dashboard/* route
-          Remove the leading /dashboard/ from the path
-        */}
+      
+       
       </Route>
       <Route path="/auth/*" element={<Auth />} />
+      <Route path="*" element={<Navigate to="/auth/sign-in" replace />} />
     </Routes>
   );
 }

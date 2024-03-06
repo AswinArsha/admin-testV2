@@ -1,11 +1,9 @@
-//routes.jsx
 import {
   HomeIcon,
   UserCircleIcon,
   ServerStackIcon,
-  
 } from "@heroicons/react/24/solid";
-import { Home, Users, AddUser } from "@/pages/dashboard"; // Import AddUser component
+import { Home, Users, AddUser, UserDetails } from "@/pages/dashboard"; // Import UserDetails component
 import { SignIn } from "@/pages/auth";
 
 const icon = {
@@ -29,6 +27,13 @@ export const routes = [
         name: "Users",
         path: "/users",
         element: <Users />,
+      },
+      {
+        icon: <UserCircleIcon {...icon} />, 
+        name: "User Details", 
+        path: "/user-details/:userId", 
+        element: <UserDetails />,
+        className: showAddUserButton ? "" : "hidden",
       },
       {
         name: "Add User",
